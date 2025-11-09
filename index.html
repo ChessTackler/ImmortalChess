@@ -5,11 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>EChess - Master Chess Through Interactive Courses</title>
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    /* --- existing CSS retained --- */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
 
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -21,26 +18,23 @@
     body::before {
       content: '';
       position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: 
-        radial-gradient(circle at 20% 50%, rgba(99, 102, 241, 0.1) 0%, transparent 50%),
-        radial-gradient(circle at 80% 80%, rgba(139, 92, 246, 0.1) 0%, transparent 50%);
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background:
+        radial-gradient(circle at 20% 50%, rgba(99,102,241,0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(139,92,246,0.1) 0%, transparent 50%);
       z-index: -1;
     }
 
-    /* Header */
     header {
-      background: rgba(15, 15, 30, 0.95);
+      background: rgba(15,15,30,0.95);
       backdrop-filter: blur(10px);
       padding: 1.2rem 0;
       position: sticky;
       top: 0;
       z-index: 1000;
-      border-bottom: 2px solid rgba(255, 165, 0, 0.3);
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+      border-bottom: 2px solid rgba(255,165,0,0.3);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.5);
     }
 
     nav {
@@ -64,10 +58,7 @@
       transition: transform 0.3s ease;
     }
 
-    .logo:hover {
-      transform: scale(1.05) rotate(-2deg);
-    }
-
+    .logo:hover { transform: scale(1.05) rotate(-2deg); }
     .logo::before {
       content: "♔";
       font-size: 2.5rem;
@@ -75,10 +66,7 @@
       animation: float 3s ease-in-out infinite;
     }
 
-    @keyframes float {
-      0%, 100% { transform: translateY(0px); }
-      50% { transform: translateY(-10px); }
-    }
+    @keyframes float { 0%,100% {transform:translateY(0);} 50% {transform:translateY(-10px);} }
 
     .nav-links {
       display: flex;
@@ -99,29 +87,23 @@
     .nav-links a::before {
       content: '';
       position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255, 165, 0, 0.3), transparent);
+      top: 0; left: -100%;
+      width: 100%; height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,165,0,0.3), transparent);
       transition: left 0.5s ease;
     }
 
-    .nav-links a:hover::before {
-      left: 100%;
-    }
-
+    .nav-links a:hover::before { left: 100%; }
     .nav-links a:hover {
-      background: rgba(255, 165, 0, 0.2);
+      background: rgba(255,165,0,0.2);
       transform: translateY(-2px);
     }
 
-    /* Ultra-slim CTA button */
     .cta-btn {
       background: linear-gradient(135deg, #ffb347, #ff7a29);
       padding: 0.3rem 0.8rem;
       border-radius: 20px;
-      border: 1px solid rgba(255, 190, 100, 0.5);
+      border: 1px solid rgba(255,190,100,0.5);
       color: #fff;
       font-weight: 600;
       font-size: 0.9rem;
@@ -130,36 +112,27 @@
       transition: all 0.35s ease;
       position: relative;
       overflow: hidden;
-      box-shadow: 0 2px 8px rgba(255, 165, 0, 0.35);
+      box-shadow: 0 2px 8px rgba(255,165,0,0.35);
       white-space: nowrap;
     }
 
     .cta-btn::after {
       content: '';
       position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(120deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+      top: 0; left: -100%;
+      width: 100%; height: 100%;
+      background: linear-gradient(120deg, transparent, rgba(255,255,255,0.3), transparent);
       transition: all 0.5s ease;
     }
 
-    .cta-btn:hover::after {
-      left: 100%;
-    }
-
+    .cta-btn:hover::after { left: 100%; }
     .cta-btn:hover {
       transform: translateY(-2px) scale(1.03);
-      box-shadow: 0 5px 14px rgba(255, 165, 0, 0.5);
-      border-color: rgba(255, 210, 140, 0.9);
+      box-shadow: 0 5px 14px rgba(255,165,0,0.5);
+      border-color: rgba(255,210,140,0.9);
     }
+    .cta-btn:active { transform: scale(0.96); }
 
-    .cta-btn:active {
-      transform: scale(0.96);
-    }
-
-    /* Hero Section */
     .hero {
       max-width: 1400px;
       margin: 4rem auto;
@@ -184,11 +157,10 @@
     }
 
     @keyframes fadeInUp {
-      from { opacity: 0; transform: translateY(30px); }
-      to { opacity: 1; transform: translateY(0); }
+      from {opacity:0; transform:translateY(30px);}
+      to {opacity:1; transform:translateY(0);}
     }
 
-    /* Courses Section */
     .courses-section {
       max-width: 1400px;
       margin: 4rem auto;
@@ -225,17 +197,18 @@
       display: block;
       text-decoration: none;
       color: inherit;
-      background: rgba(30, 30, 50, 0.8);
+      background: rgba(30,30,50,0.8);
       border-radius: 20px;
       overflow: hidden;
-      border: 2px solid rgba(255, 165, 0, 0.1);
+      border: 2px solid rgba(255,165,0,0.1);
       transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      cursor: pointer;
     }
 
     a.course-card:hover {
       transform: translateY(-10px) scale(1.03);
       border-color: #ffa500;
-      box-shadow: 0 15px 30px rgba(255, 165, 0, 0.3);
+      box-shadow: 0 15px 30px rgba(255,165,0,0.3);
     }
 
     .course-image {
@@ -248,38 +221,26 @@
       font-size: 5rem;
     }
 
-    .course-content {
-      padding: 1.5rem;
-    }
-
+    .course-content { padding: 1.5rem; }
     .course-level {
       display: inline-block;
       padding: 0.3rem 1rem;
-      background: rgba(255, 165, 0, 0.2);
+      background: rgba(255,165,0,0.2);
       border-radius: 20px;
       font-size: 0.85rem;
       margin-bottom: 0.8rem;
-      border: 1px solid rgba(255, 165, 0, 0.4);
+      border: 1px solid rgba(255,165,0,0.4);
     }
 
-    .course-title {
-      font-size: 1.4rem;
-      margin-bottom: 0.8rem;
-    }
-
-    .course-description {
-      color: #aaa;
-      font-size: 0.95rem;
-      line-height: 1.6;
-      margin-bottom: 1rem;
-    }
+    .course-title { font-size: 1.4rem; margin-bottom: 0.8rem; }
+    .course-description { color: #aaa; font-size: 0.95rem; line-height: 1.6; margin-bottom: 1rem; }
 
     .course-meta {
       display: flex;
       justify-content: space-between;
       align-items: center;
       padding-top: 1rem;
-      border-top: 1px solid rgba(255, 165, 0, 0.2);
+      border-top: 1px solid rgba(255,165,0,0.2);
     }
 
     .course-stats {
@@ -289,24 +250,19 @@
       color: #888;
     }
 
-    .course-price {
-      font-size: 1.5rem;
-      font-weight: bold;
-      color: #ffa500;
-    }
+    .course-price { font-size: 1.5rem; font-weight: bold; color: #ffa500; }
 
-    /* Footer */
     footer {
-      background: rgba(15, 15, 30, 0.95);
+      background: rgba(15,15,30,0.95);
       padding: 3rem 2rem 1rem;
       margin-top: 6rem;
-      border-top: 2px solid rgba(255, 165, 0, 0.3);
+      border-top: 2px solid rgba(255,165,0,0.3);
     }
 
     .copyright {
       text-align: center;
       padding-top: 2rem;
-      border-top: 1px solid rgba(255, 165, 0, 0.2);
+      border-top: 1px solid rgba(255,165,0,0.2);
       color: #888;
     }
 
@@ -339,7 +295,9 @@
   <section class="courses-section" id="courses">
     <h2 class="section-title">Featured Courses</h2>
     <div class="course-grid">
-      <a href="Chessv.html" class="course-card">
+
+      <!-- Each card now has a data-access attribute -->
+      <a class="course-card" data-access="257251" data-title="Chess Fundamentals" data-link="Chessv.html">
         <div class="course-image">♟️</div>
         <div class="course-content">
           <span class="course-level">Beginner</span>
@@ -355,7 +313,7 @@
         </div>
       </a>
 
-      <a href="Chessv.html" class="course-card">
+      <a class="course-card" data-access="628197" data-title="Tactical Mastery" data-link="Chessv.html">
         <div class="course-image">♜</div>
         <div class="course-content">
           <span class="course-level">Intermediate</span>
@@ -371,7 +329,7 @@
         </div>
       </a>
 
-      <a href="Chessv.html" class="course-card">
+      <a class="course-card" data-access="719165" data-title="Endgame Techniques" data-link="Chessv.html">
         <div class="course-image">♛</div>
         <div class="course-content">
           <span class="course-level">Advanced</span>
@@ -387,7 +345,7 @@
         </div>
       </a>
 
-      <a href="Chessv.html" class="course-card">
+      <a class="course-card" data-access="165168" data-title="Opening Repertoire" data-link="Chessv.html">
         <div class="course-image">♚</div>
         <div class="course-content">
           <span class="course-level">All Levels</span>
@@ -403,7 +361,7 @@
         </div>
       </a>
 
-      <a href="Chessv.html" class="course-card">
+      <a class="course-card" data-access="166261" data-title="Positional Play" data-link="Chessv.html">
         <div class="course-image">♝</div>
         <div class="course-content">
           <span class="course-level">Intermediate</span>
@@ -419,7 +377,7 @@
         </div>
       </a>
 
-      <a href="Chessv.html" class="course-card">
+      <a class="course-card" data-access="829262" data-title="Attack & Defense" data-link="Chessv.html">
         <div class="course-image">♞</div>
         <div class="course-content">
           <span class="course-level">Advanced</span>
@@ -434,6 +392,7 @@
           </div>
         </div>
       </a>
+
     </div>
   </section>
 
@@ -442,5 +401,26 @@
       <p>&copy; 2025 Chesswise. All rights reserved. Made with ♟️ for chess lovers.</p>
     </div>
   </footer>
+
+  <!-- Simple JS to handle access codes -->
+  <script>
+    document.querySelectorAll('.course-card').forEach(card => {
+      card.addEventListener('click', (e) => {
+        e.preventDefault();
+        const correctCode = card.getAttribute('data-access');
+        const title = card.getAttribute('data-title');
+        const link = card.getAttribute('data-link');
+
+        const entered = prompt(`Enter access code for "${title}" course:`);
+
+        if (entered === correctCode) {
+          alert("✅ Access Granted! Redirecting to course...");
+          window.location.href = link;
+        } else if (entered !== null) {
+          alert("❌ Incorrect access code. Please try again.");
+        }
+      });
+    });
+  </script>
 </body>
 </html>
