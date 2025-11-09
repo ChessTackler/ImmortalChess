@@ -3,9 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>EChess - Master Chess Through Interactive Courses</title>
+  <title>EternalChess - Master Chess Through Interactive Courses</title>
   <style>
-    /* --- existing CSS retained --- */
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
     body {
@@ -59,6 +58,7 @@
     }
 
     .logo:hover { transform: scale(1.05) rotate(-2deg); }
+
     .logo::before {
       content: "♔";
       font-size: 2.5rem;
@@ -80,20 +80,8 @@
       padding: 0.5rem 1.5rem;
       border-radius: 25px;
       transition: all 0.3s ease;
-      position: relative;
-      overflow: hidden;
     }
 
-    .nav-links a::before {
-      content: '';
-      position: absolute;
-      top: 0; left: -100%;
-      width: 100%; height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255,165,0,0.3), transparent);
-      transition: left 0.5s ease;
-    }
-
-    .nav-links a:hover::before { left: 100%; }
     .nav-links a:hover {
       background: rgba(255,165,0,0.2);
       transform: translateY(-2px);
@@ -107,31 +95,15 @@
       color: #fff;
       font-weight: 600;
       font-size: 0.9rem;
-      letter-spacing: 0.3px;
       cursor: pointer;
       transition: all 0.35s ease;
-      position: relative;
-      overflow: hidden;
       box-shadow: 0 2px 8px rgba(255,165,0,0.35);
-      white-space: nowrap;
     }
 
-    .cta-btn::after {
-      content: '';
-      position: absolute;
-      top: 0; left: -100%;
-      width: 100%; height: 100%;
-      background: linear-gradient(120deg, transparent, rgba(255,255,255,0.3), transparent);
-      transition: all 0.5s ease;
-    }
-
-    .cta-btn:hover::after { left: 100%; }
     .cta-btn:hover {
       transform: translateY(-2px) scale(1.03);
       box-shadow: 0 5px 14px rgba(255,165,0,0.5);
-      border-color: rgba(255,210,140,0.9);
     }
-    .cta-btn:active { transform: scale(0.96); }
 
     .hero {
       max-width: 1400px;
@@ -146,19 +118,12 @@
       background: linear-gradient(135deg, #fff, #ffa500);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      animation: fadeInUp 1s ease;
     }
 
     .hero p {
       font-size: 1.3rem;
       color: #ccc;
       margin-bottom: 2rem;
-      animation: fadeInUp 1s ease 0.2s backwards;
-    }
-
-    @keyframes fadeInUp {
-      from {opacity:0; transform:translateY(30px);}
-      to {opacity:1; transform:translateY(0);}
     }
 
     .courses-section {
@@ -201,7 +166,7 @@
       border-radius: 20px;
       overflow: hidden;
       border: 2px solid rgba(255,165,0,0.1);
-      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      transition: all 0.4s cubic-bezier(0.175,0.885,0.32,1.275);
       cursor: pointer;
     }
 
@@ -231,7 +196,6 @@
       margin-bottom: 0.8rem;
       border: 1px solid rgba(255,165,0,0.4);
     }
-
     .course-title { font-size: 1.4rem; margin-bottom: 0.8rem; }
     .course-description { color: #aaa; font-size: 0.95rem; line-height: 1.6; margin-bottom: 1rem; }
 
@@ -243,13 +207,7 @@
       border-top: 1px solid rgba(255,165,0,0.2);
     }
 
-    .course-stats {
-      display: flex;
-      gap: 1rem;
-      font-size: 0.9rem;
-      color: #888;
-    }
-
+    .course-stats { display: flex; gap: 1rem; font-size: 0.9rem; color: #888; }
     .course-price { font-size: 1.5rem; font-weight: bold; color: #ffa500; }
 
     footer {
@@ -266,16 +224,108 @@
       color: #888;
     }
 
-    @media (max-width: 768px) {
-      .nav-links { display: none; }
-      .hero h1 { font-size: 2.5rem; }
+    /* Modal Popup */
+    .modal-overlay {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(10, 14, 39, 0.85);
+      backdrop-filter: blur(6px);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.4s ease;
     }
+
+    .modal-overlay.active {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .access-modal {
+      background: rgba(25, 25, 45, 0.95);
+      border: 1px solid rgba(255,165,0,0.3);
+      border-radius: 20px;
+      padding: 2rem;
+      width: 90%;
+      max-width: 400px;
+      box-shadow: 0 0 25px rgba(255,165,0,0.3);
+      text-align: center;
+      transform: scale(0.8);
+      opacity: 0;
+      transition: all 0.3s ease;
+      animation: pulseGlow 2s infinite alternate ease-in-out;
+    }
+
+    @keyframes pulseGlow {
+      from { box-shadow: 0 0 20px rgba(255,165,0,0.3); }
+      to { box-shadow: 0 0 40px rgba(255,165,0,0.6); }
+    }
+
+    .modal-overlay.active .access-modal {
+      transform: scale(1);
+      opacity: 1;
+    }
+
+    .access-modal h3 {
+      font-size: 1.6rem;
+      margin-bottom: 1rem;
+      background: linear-gradient(135deg, #fff, #ffa500);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .access-modal input {
+      width: 80%;
+      padding: 0.8rem 1rem;
+      border-radius: 10px;
+      border: none;
+      outline: none;
+      font-size: 1.1rem;
+      text-align: center;
+      margin: 1rem 0;
+      background: rgba(255,255,255,0.1);
+      color: #fff;
+      border: 1px solid rgba(255,165,0,0.4);
+    }
+
+    .access-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+
+    .access-btn {
+      padding: 0.6rem 1.4rem;
+      border-radius: 25px;
+      border: 1px solid rgba(255,165,0,0.5);
+      background: linear-gradient(135deg, #ffa500, #ff6b35);
+      color: #fff;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .access-btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 15px rgba(255,165,0,0.6);
+    }
+
+    .cancel-btn {
+      background: rgba(255,255,255,0.1);
+      border-color: rgba(255,255,255,0.2);
+    }
+    .cancel-btn:hover { background: rgba(255,255,255,0.2); }
   </style>
 </head>
 <body>
   <header>
     <nav>
-      <div class="logo">EChess</div>
+      <div class="logo">EternalChess</div>
       <ul class="nav-links">
         <li><a href="#courses">Courses</a></li>
         <li><a href="#features">Features</a></li>
@@ -295,8 +345,6 @@
   <section class="courses-section" id="courses">
     <h2 class="section-title">Featured Courses</h2>
     <div class="course-grid">
-
-      <!-- Each card now has a data-access attribute -->
       <a class="course-card" data-access="257251" data-title="Chess Fundamentals" data-link="Chessv.html">
         <div class="course-image">♟️</div>
         <div class="course-content">
@@ -304,10 +352,7 @@
           <h3 class="course-title">Chess Fundamentals</h3>
           <p class="course-description">Master the basics: piece movement, tactics, and opening principles.</p>
           <div class="course-meta">
-            <div class="course-stats">
-              <span>📚 24 Lessons</span>
-              <span>⭐ 4.9</span>
-            </div>
+            <div class="course-stats"><span>📚 24 Lessons</span><span>⭐ 4.9</span></div>
             <div class="course-price">$29</div>
           </div>
         </div>
@@ -320,10 +365,7 @@
           <h3 class="course-title">Tactical Mastery</h3>
           <p class="course-description">Sharpen your tactical vision with 500+ puzzles and famous game patterns.</p>
           <div class="course-meta">
-            <div class="course-stats">
-              <span>📚 42 Lessons</span>
-              <span>⭐ 4.8</span>
-            </div>
+            <div class="course-stats"><span>📚 42 Lessons</span><span>⭐ 4.8</span></div>
             <div class="course-price">$49</div>
           </div>
         </div>
@@ -336,10 +378,7 @@
           <h3 class="course-title">Endgame Techniques</h3>
           <p class="course-description">Master crucial endgame positions and techniques to convert advantages.</p>
           <div class="course-meta">
-            <div class="course-stats">
-              <span>📚 36 Lessons</span>
-              <span>⭐ 5.0</span>
-            </div>
+            <div class="course-stats"><span>📚 36 Lessons</span><span>⭐ 5.0</span></div>
             <div class="course-price">$69</div>
           </div>
         </div>
@@ -352,10 +391,7 @@
           <h3 class="course-title">Opening Repertoire</h3>
           <p class="course-description">Build solid opening repertoires with GM-approved lines and strategies.</p>
           <div class="course-meta">
-            <div class="course-stats">
-              <span>📚 56 Lessons</span>
-              <span>⭐ 4.9</span>
-            </div>
+            <div class="course-stats"><span>📚 56 Lessons</span><span>⭐ 4.9</span></div>
             <div class="course-price">$79</div>
           </div>
         </div>
@@ -368,10 +404,7 @@
           <h3 class="course-title">Positional Play</h3>
           <p class="course-description">Understand long-term strategy and learn to exploit weaknesses effectively.</p>
           <div class="course-meta">
-            <div class="course-stats">
-              <span>📚 38 Lessons</span>
-              <span>⭐ 4.7</span>
-            </div>
+            <div class="course-stats"><span>📚 38 Lessons</span><span>⭐ 4.7</span></div>
             <div class="course-price">$59</div>
           </div>
         </div>
@@ -384,43 +417,42 @@
           <h3 class="course-title">Attack & Defense</h3>
           <p class="course-description">Learn attacking motifs and defensive resources from GM-level examples.</p>
           <div class="course-meta">
-            <div class="course-stats">
-              <span>📚 44 Lessons</span>
-              <span>⭐ 4.8</span>
-            </div>
+            <div class="course-stats"><span>📚 44 Lessons</span><span>⭐ 4.8</span></div>
             <div class="course-price">$64</div>
           </div>
         </div>
       </a>
-
     </div>
   </section>
 
   <footer>
     <div class="copyright">
-      <p>&copy; 2025 Chesswise. All rights reserved. Made with ♟️ for chess lovers.</p>
+      <p>&copy; 2025 EternalChess. All rights reserved. Made with ♟️ for chess lovers.</p>
     </div>
   </footer>
 
-  <!-- Simple JS to handle access codes -->
+  <!-- Stylish Access Modal -->
+  <div class="modal-overlay" id="codeModal">
+    <div class="access-modal">
+      <h3 id="modalTitle">Enter Access Code</h3>
+      <input type="number" id="accessInput" placeholder="Enter code here" />
+      <div class="access-buttons">
+        <button class="access-btn" id="verifyBtn">Verify</button>
+        <button class="access-btn cancel-btn" id="cancelBtn">Cancel</button>
+      </div>
+    </div>
+  </div>
+
   <script>
-    document.querySelectorAll('.course-card').forEach(card => {
-      card.addEventListener('click', (e) => {
-        e.preventDefault();
-        const correctCode = card.getAttribute('data-access');
-        const title = card.getAttribute('data-title');
-        const link = card.getAttribute('data-link');
+    const modal = document.getElementById('codeModal');
+    const input = document.getElementById('accessInput');
+    const titleEl = document.getElementById('modalTitle');
+    const verifyBtn = document.getElementById('verifyBtn');
+    const cancelBtn = document.getElementById('cancelBtn');
+    let currentCard = null;
 
-        const entered = prompt(`Enter access code for "${title}" course:`);
+    // Open
 
-        if (entered === correctCode) {
-          alert("✅ Access Granted! Redirecting to course...");
-          window.location.href = link;
-        } else if (entered !== null) {
-          alert("❌ Incorrect access code. Please try again.");
-        }
-      });
-    });
-  </script>
+</script>
 </body>
 </html>
