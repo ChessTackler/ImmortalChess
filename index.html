@@ -3,8 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>EternalChess - Master Chess Through Interactive Courses</title>
+  <title>EChess - Master Chess Through Interactive Courses</title>
   <style>
+    /* --- existing CSS retained --- */
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
     body {
@@ -58,7 +59,6 @@
     }
 
     .logo:hover { transform: scale(1.05) rotate(-2deg); }
-
     .logo::before {
       content: "♔";
       font-size: 2.5rem;
@@ -80,8 +80,20 @@
       padding: 0.5rem 1.5rem;
       border-radius: 25px;
       transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
     }
 
+    .nav-links a::before {
+      content: '';
+      position: absolute;
+      top: 0; left: -100%;
+      width: 100%; height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,165,0,0.3), transparent);
+      transition: left 0.5s ease;
+    }
+
+    .nav-links a:hover::before { left: 100%; }
     .nav-links a:hover {
       background: rgba(255,165,0,0.2);
       transform: translateY(-2px);
@@ -89,21 +101,37 @@
 
     .cta-btn {
       background: linear-gradient(135deg, #ffb347, #ff7a29);
-      padding: 0.5rem 1rem;
+      padding: 0.3rem 0.8rem;
       border-radius: 20px;
       border: 1px solid rgba(255,190,100,0.5);
       color: #fff;
       font-weight: 600;
       font-size: 0.9rem;
+      letter-spacing: 0.3px;
       cursor: pointer;
       transition: all 0.35s ease;
+      position: relative;
+      overflow: hidden;
       box-shadow: 0 2px 8px rgba(255,165,0,0.35);
+      white-space: nowrap;
     }
 
+    .cta-btn::after {
+      content: '';
+      position: absolute;
+      top: 0; left: -100%;
+      width: 100%; height: 100%;
+      background: linear-gradient(120deg, transparent, rgba(255,255,255,0.3), transparent);
+      transition: all 0.5s ease;
+    }
+
+    .cta-btn:hover::after { left: 100%; }
     .cta-btn:hover {
       transform: translateY(-2px) scale(1.03);
       box-shadow: 0 5px 14px rgba(255,165,0,0.5);
+      border-color: rgba(255,210,140,0.9);
     }
+    .cta-btn:active { transform: scale(0.96); }
 
     .hero {
       max-width: 1400px;
@@ -118,12 +146,19 @@
       background: linear-gradient(135deg, #fff, #ffa500);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
+      animation: fadeInUp 1s ease;
     }
 
     .hero p {
       font-size: 1.3rem;
       color: #ccc;
       margin-bottom: 2rem;
+      animation: fadeInUp 1s ease 0.2s backwards;
+    }
+
+    @keyframes fadeInUp {
+      from {opacity:0; transform:translateY(30px);}
+      to {opacity:1; transform:translateY(0);}
     }
 
     .courses-section {
@@ -166,7 +201,7 @@
       border-radius: 20px;
       overflow: hidden;
       border: 2px solid rgba(255,165,0,0.1);
-      transition: all 0.4s cubic-bezier(0.175,0.885,0.32,1.275);
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
       cursor: pointer;
     }
 
@@ -196,6 +231,7 @@
       margin-bottom: 0.8rem;
       border: 1px solid rgba(255,165,0,0.4);
     }
+
     .course-title { font-size: 1.4rem; margin-bottom: 0.8rem; }
     .course-description { color: #aaa; font-size: 0.95rem; line-height: 1.6; margin-bottom: 1rem; }
 
@@ -207,7 +243,13 @@
       border-top: 1px solid rgba(255,165,0,0.2);
     }
 
-    .course-stats { display: flex; gap: 1rem; font-size: 0.9rem; color: #888; }
+    .course-stats {
+      display: flex;
+      gap: 1rem;
+      font-size: 0.9rem;
+      color: #888;
+    }
+
     .course-price { font-size: 1.5rem; font-weight: bold; color: #ffa500; }
 
     footer {
@@ -224,102 +266,10 @@
       color: #888;
     }
 
-    /* Modal Popup */
-    .modal-overlay {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: rgba(10, 14, 39, 0.85);
-      backdrop-filter: blur(6px);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      z-index: 9999;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.4s ease;
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .hero h1 { font-size: 2.5rem; }
     }
-
-    .modal-overlay.active {
-      opacity: 1;
-      pointer-events: all;
-    }
-
-    .access-modal {
-      background: rgba(25, 25, 45, 0.95);
-      border: 1px solid rgba(255,165,0,0.3);
-      border-radius: 20px;
-      padding: 2rem;
-      width: 90%;
-      max-width: 400px;
-      box-shadow: 0 0 25px rgba(255,165,0,0.3);
-      text-align: center;
-      transform: scale(0.8);
-      opacity: 0;
-      transition: all 0.3s ease;
-      animation: pulseGlow 2s infinite alternate ease-in-out;
-    }
-
-    @keyframes pulseGlow {
-      from { box-shadow: 0 0 20px rgba(255,165,0,0.3); }
-      to { box-shadow: 0 0 40px rgba(255,165,0,0.6); }
-    }
-
-    .modal-overlay.active .access-modal {
-      transform: scale(1);
-      opacity: 1;
-    }
-
-    .access-modal h3 {
-      font-size: 1.6rem;
-      margin-bottom: 1rem;
-      background: linear-gradient(135deg, #fff, #ffa500);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-
-    .access-modal input {
-      width: 80%;
-      padding: 0.8rem 1rem;
-      border-radius: 10px;
-      border: none;
-      outline: none;
-      font-size: 1.1rem;
-      text-align: center;
-      margin: 1rem 0;
-      background: rgba(255,255,255,0.1);
-      color: #fff;
-      border: 1px solid rgba(255,165,0,0.4);
-    }
-
-    .access-buttons {
-      display: flex;
-      justify-content: center;
-      gap: 1rem;
-      margin-top: 1rem;
-    }
-
-    .access-btn {
-      padding: 0.6rem 1.4rem;
-      border-radius: 25px;
-      border: 1px solid rgba(255,165,0,0.5);
-      background: linear-gradient(135deg, #ffa500, #ff6b35);
-      color: #fff;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.3s ease;
-    }
-
-    .access-btn:hover {
-      transform: scale(1.05);
-      box-shadow: 0 0 15px rgba(255,165,0,0.6);
-    }
-
-    .cancel-btn {
-      background: rgba(255,255,255,0.1);
-      border-color: rgba(255,255,255,0.2);
-    }
-    .cancel-btn:hover { background: rgba(255,255,255,0.2); }
   </style>
 </head>
 <body>
@@ -345,6 +295,8 @@
   <section class="courses-section" id="courses">
     <h2 class="section-title">Featured Courses</h2>
     <div class="course-grid">
+
+      <!-- Each card now has a data-access attribute -->
       <a class="course-card" data-access="257251" data-title="Chess Fundamentals" data-link="Chessv.html">
         <div class="course-image">♟️</div>
         <div class="course-content">
@@ -352,7 +304,10 @@
           <h3 class="course-title">Chess Fundamentals</h3>
           <p class="course-description">Master the basics: piece movement, tactics, and opening principles.</p>
           <div class="course-meta">
-            <div class="course-stats"><span>📚 24 Lessons</span><span>⭐ 4.9</span></div>
+            <div class="course-stats">
+              <span>📚 24 Lessons</span>
+              <span>⭐ 4.9</span>
+            </div>
             <div class="course-price">$29</div>
           </div>
         </div>
@@ -365,7 +320,10 @@
           <h3 class="course-title">Tactical Mastery</h3>
           <p class="course-description">Sharpen your tactical vision with 500+ puzzles and famous game patterns.</p>
           <div class="course-meta">
-            <div class="course-stats"><span>📚 42 Lessons</span><span>⭐ 4.8</span></div>
+            <div class="course-stats">
+              <span>📚 42 Lessons</span>
+              <span>⭐ 4.8</span>
+            </div>
             <div class="course-price">$49</div>
           </div>
         </div>
@@ -378,7 +336,10 @@
           <h3 class="course-title">Endgame Techniques</h3>
           <p class="course-description">Master crucial endgame positions and techniques to convert advantages.</p>
           <div class="course-meta">
-            <div class="course-stats"><span>📚 36 Lessons</span><span>⭐ 5.0</span></div>
+            <div class="course-stats">
+              <span>📚 36 Lessons</span>
+              <span>⭐ 5.0</span>
+            </div>
             <div class="course-price">$69</div>
           </div>
         </div>
@@ -391,7 +352,10 @@
           <h3 class="course-title">Opening Repertoire</h3>
           <p class="course-description">Build solid opening repertoires with GM-approved lines and strategies.</p>
           <div class="course-meta">
-            <div class="course-stats"><span>📚 56 Lessons</span><span>⭐ 4.9</span></div>
+            <div class="course-stats">
+              <span>📚 56 Lessons</span>
+              <span>⭐ 4.9</span>
+            </div>
             <div class="course-price">$79</div>
           </div>
         </div>
@@ -404,7 +368,10 @@
           <h3 class="course-title">Positional Play</h3>
           <p class="course-description">Understand long-term strategy and learn to exploit weaknesses effectively.</p>
           <div class="course-meta">
-            <div class="course-stats"><span>📚 38 Lessons</span><span>⭐ 4.7</span></div>
+            <div class="course-stats">
+              <span>📚 38 Lessons</span>
+              <span>⭐ 4.7</span>
+            </div>
             <div class="course-price">$59</div>
           </div>
         </div>
@@ -417,36 +384,222 @@
           <h3 class="course-title">Attack & Defense</h3>
           <p class="course-description">Learn attacking motifs and defensive resources from GM-level examples.</p>
           <div class="course-meta">
-            <div class="course-stats"><span>📚 44 Lessons</span><span>⭐ 4.8</span></div>
+            <div class="course-stats">
+              <span>📚 44 Lessons</span>
+              <span>⭐ 4.8</span>
+            </div>
             <div class="course-price">$64</div>
           </div>
         </div>
       </a>
+
     </div>
   </section>
 
   <footer>
     <div class="copyright">
-      <p>&copy; 2025 EternalChess. All rights reserved. Made with ♟️ for chess lovers.</p>
+      <p>&copy; 2025 Chesswise. All rights reserved. Made with ♟️ for chess lovers.</p>
     </div>
   </footer>
 
-  <!-- Stylish Access Modal -->
-  <div class="modal-overlay" id="codeModal">
-    <div class="access-modal">
-      <h3 id="modalTitle">Enter Access Code</h3>
-      <input type="number" id="accessInput" placeholder="Enter code here" />
-      <div class="access-buttons">
-        <button class="access-btn" id="verifyBtn">Verify</button>
-        <button class="access-btn cancel-btn" id="cancelBtn">Cancel</button>
-      </div>
+  <!-- Simple JS to handle access codes -->
+  <script>
+    document.querySelectorAll('.course-card').forEach(card => {
+      card.addEventListener('click', (e) => {
+        e.preventDefault();
+        const correctCode = card.getAttribute('data-access');
+        const title = card.getAttribute('data-title');
+        const link = card.getAttribute('data-link');
+
+        const entered = prompt(`Enter access code for "${title}" course:`);
+
+        if (entered === correctCode) {
+          alert("✅ Access Granted! Redirecting to course...");
+          window.location.href = link;
+        } else if (entered !== null) {
+          alert("❌ Incorrect access code. Please try again.");
+        }
+      });
+    });
+  </script>
+<!-- Place this right before the closing </body> tag -->
+<div id="access-modal" class="access-modal">
+  <div class="modal-content">
+    <h2 id="modal-title">Enter Access Code</h2>
+    <p id="modal-desc">Please enter the access code to unlock this course.</p>
+    <input type="password" id="access-input" placeholder="Access Code">
+    <div class="modal-buttons">
+      <button id="cancel-btn" class="modal-btn cancel">Cancel</button>
+      <button id="approve-btn" class="modal-btn approve">Access</button>
     </div>
   </div>
+</div>
 
-  <script>
-    const modal = document.getElementById('codeModal');
-    const input = document.getElementById('accessInput');
-    const titleEl = document.getElementById('modalTitle');
-    const verifyBtn = document.getElementById('verifyBtn');
-    const cancelBtn = document.getElementById('cancelBtn');
-    let
+<script>
+  const modal = document.getElementById('access-modal');
+  const input = document.getElementById('access-input');
+  const titleEl = document.getElementById('modal-title');
+  const descEl = document.getElementById('modal-desc');
+  const approveBtn = document.getElementById('approve-btn');
+  const cancelBtn = document.getElementById('cancel-btn');
+
+  let currentCourse = null;
+
+  document.querySelectorAll('.course-card').forEach(card => {
+    card.addEventListener('click', (e) => {
+      e.preventDefault();
+      currentCourse = {
+        code: card.getAttribute('data-access'),
+        title: card.getAttribute('data-title'),
+        link: card.getAttribute('data-link')
+      };
+      titleEl.textContent = `Access: ${currentCourse.title}`;
+      descEl.textContent = `Enter the secret access code for this course.`;
+      input.value = '';
+      modal.classList.add('show');
+      input.focus();
+    });
+  });
+
+  approveBtn.addEventListener('click', () => {
+    if (input.value === currentCourse.code) {
+      modal.classList.remove('show');
+      alert("✅ Access Granted! Redirecting to course...");
+      window.location.href = currentCourse.link;
+    } else {
+      input.classList.add('shake');
+      setTimeout(() => input.classList.remove('shake'), 500);
+    }
+  });
+
+  cancelBtn.addEventListener('click', () => {
+    modal.classList.remove('show');
+  });
+
+  window.addEventListener('click', (e) => {
+    if (e.target === modal) modal.classList.remove('show');
+  });
+</script>
+
+<style>
+  /* --- Glossy Modal Styles --- */
+  .access-modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(10, 10, 25, 0.6);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s ease;
+  }
+
+  .access-modal.show {
+    opacity: 1;
+    pointer-events: all;
+  }
+
+  .modal-content {
+    background: linear-gradient(145deg, rgba(30,30,50,0.9), rgba(10,10,25,0.85));
+    border: 1px solid rgba(255,255,255,0.15);
+    box-shadow: 0 0 25px rgba(255,165,0,0.25), inset 0 0 10px rgba(255,255,255,0.05);
+    border-radius: 20px;
+    padding: 2rem 2.5rem;
+    width: 90%;
+    max-width: 400px;
+    text-align: center;
+    animation: popIn 0.4s ease;
+  }
+
+  .modal-content h2 {
+    font-size: 1.6rem;
+    margin-bottom: 0.5rem;
+    background: linear-gradient(90deg, #fff, #ffa500);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .modal-content p {
+    color: #bbb;
+    font-size: 0.95rem;
+    margin-bottom: 1.5rem;
+  }
+
+  #access-input {
+    width: 100%;
+    padding: 0.7rem 1rem;
+    border-radius: 10px;
+    border: 1px solid rgba(255,255,255,0.2);
+    background: rgba(255,255,255,0.1);
+    color: #fff;
+    outline: none;
+    font-size: 1rem;
+    letter-spacing: 0.5px;
+    transition: all 0.3s ease;
+  }
+
+  #access-input:focus {
+    border-color: #ffa500;
+    box-shadow: 0 0 10px rgba(255,165,0,0.3);
+  }
+
+  .modal-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 1.8rem;
+  }
+
+  .modal-btn {
+    flex: 1;
+    padding: 0.7rem 0;
+    margin: 0 0.3rem;
+    border: none;
+    border-radius: 10px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .modal-btn.cancel {
+    background: rgba(255,255,255,0.1);
+    color: #ddd;
+  }
+
+  .modal-btn.cancel:hover {
+    background: rgba(255,255,255,0.2);
+  }
+
+  .modal-btn.approve {
+    background: linear-gradient(135deg, #ffb347, #ff7a29);
+    color: #fff;
+    box-shadow: 0 4px 15px rgba(255,165,0,0.4);
+  }
+
+  .modal-btn.approve:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(255,165,0,0.6);
+  }
+
+  .shake {
+    animation: shakeAnim 0.4s ease;
+    border-color: #ff5555 !important;
+  }
+
+  @keyframes shakeAnim {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-6px); }
+    50% { transform: translateX(6px); }
+    75% { transform: translateX(-6px); }
+  }
+
+  @keyframes popIn {
+    from { transform: scale(0.85); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+  }
+</style>
+</body>
+</html>
