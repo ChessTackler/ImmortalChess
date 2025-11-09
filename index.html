@@ -601,5 +601,186 @@
     to { transform: scale(1); opacity: 1; }
   }
 </style>
+<!-- ✨ Add this just before the closing </body> tag -->
+<div id="access-modal" class="access-modal">
+  <div class="modal-content">
+    <h2 id="modal-title">Enter Access Code</h2>
+    <p id="modal-desc">Please enter the access code to unlock this course.</p>
+    <input type="password" id="access-input" placeholder="Access Code">
+    <div class="modal-buttons">
+      <button id="cancel-btn" class="modal-btn cancel">Cancel</button>
+      <button id="approve-btn" class="modal-btn approve">Access</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Modal Elements
+  const modal = document.getElementById('access-modal');
+  const input = document.getElementById('access-input');
+  const titleEl = document.getElementById('modal-title');
+  const descEl = document.getElementById('modal-desc');
+  const approveBtn = document.getElementById('approve-btn');
+  const cancelBtn = document.getElementById('cancel-btn');
+
+  let currentCourse = null;
+
+  // --- Handle Course Clicks ---
+  document.querySelectorAll('.course-card').forEach(card => {
+    card.addEventListener('click', (e) => {
+      e.preventDefault();
+      currentCourse = {
+        code: card.getAttribute('data-access'),
+        title: card.getAttribute('data-title'),
+        link: card.getAttribute('data-link')
+      };
+      titleEl.textContent = `Access: ${currentCourse.title}`;
+      descEl.textContent = `Enter the secret access code for this course.`;
+      input.value = '';
+      modal.classList.add('show');
+      input.focus();
+    });
+  });
+
+  // --- Approve Access ---
+  approveBtn.addEventListener('click', () => {
+    if (input.value === currentCourse.code) {
+      modal.classList.remove('show');
+      window.location.href = currentCourse.link;
+    } else {
+      input.classList.add('shake');
+      setTimeout(() => input.classList.remove('shake'), 500);
+    }
+  });
+
+  // --- Cancel or Click Outside ---
+  cancelBtn.addEventListener('click', () => modal.classList.remove('show'));
+  window.addEventListener('click', (e) => {
+    if (e.target === modal) modal.classList.remove('show');
+  });
+</script>
+
+<style>
+  /* --- Glossy Modern Modal --- */
+  .access-modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(10, 10, 25, 0.6);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s ease;
+  }
+
+  .access-modal.show {
+    opacity: 1;
+    pointer-events: all;
+  }
+
+  .modal-content {
+    background: linear-gradient(145deg, rgba(35,35,60,0.95), rgba(15,10,30,0.9));
+    border: 1px solid rgba(255,255,255,0.15);
+    box-shadow:
+      0 0 25px rgba(255,165,0,0.25),
+      inset 0 0 15px rgba(255,255,255,0.05);
+    border-radius: 20px;
+    padding: 2rem 2.5rem;
+    width: 90%;
+    max-width: 400px;
+    text-align: center;
+    animation: popIn 0.4s ease;
+  }
+
+  .modal-content h2 {
+    font-size: 1.6rem;
+    margin-bottom: 0.5rem;
+    background: linear-gradient(135deg, #fff, #ffa500);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .modal-content p {
+    color: #ccc;
+    font-size: 0.95rem;
+    margin-bottom: 1.5rem;
+  }
+
+  #access-input {
+    width: 100%;
+    padding: 0.7rem 1rem;
+    border-radius: 12px;
+    border: 1px solid rgba(255,255,255,0.2);
+    background: rgba(255,255,255,0.1);
+    color: #fff;
+    font-size: 1rem;
+    outline: none;
+    letter-spacing: 0.5px;
+    transition: all 0.3s ease;
+  }
+
+  #access-input:focus {
+    border-color: #ffa500;
+    box-shadow: 0 0 10px rgba(255,165,0,0.4);
+  }
+
+  .modal-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 1.8rem;
+  }
+
+  .modal-btn {
+    flex: 1;
+    padding: 0.7rem 0;
+    margin: 0 0.3rem;
+    border: none;
+    border-radius: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .modal-btn.cancel {
+    background: rgba(255,255,255,0.1);
+    color: #ddd;
+  }
+
+  .modal-btn.cancel:hover {
+    background: rgba(255,255,255,0.2);
+  }
+
+  .modal-btn.approve {
+    background: linear-gradient(135deg, #ffb347, #ff7a29);
+    color: #fff;
+    box-shadow: 0 4px 15px rgba(255,165,0,0.4);
+  }
+
+  .modal-btn.approve:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(255,165,0,0.6);
+  }
+
+  .shake {
+    animation: shakeAnim 0.4s ease;
+    border-color: #ff4d4d !important;
+  }
+
+  @keyframes shakeAnim {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-6px); }
+    50% { transform: translateX(6px); }
+    75% { transform: translateX(-6px); }
+  }
+
+  @keyframes popIn {
+    from { transform: scale(0.85); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+  }
+</style>
 </body>
 </html>
