@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chesswise - Master Chess Through Interactive Courses</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #0a0e27;
+      color: #fff;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: 
+        radial-gradient(circle at 20% 50%, rgba(99, 102, 241, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(139, 92, 246, 0.1) 0%, transparent 50%);
+      z-index: -1;
+    }
+
+    /* Header */
+    header {
+      background: rgba(15, 15, 30, 0.95);
+      backdrop-filter: blur(10px);
+      padding: 1.2rem 0;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      border-bottom: 2px solid rgba(255, 165, 0, 0.3);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+    }
+
+    nav {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 2rem;
+    }
+
+    .logo {
+      font-size: 2rem;
+      font-weight: bold;
+      background: linear-gradient(135deg, #ffa500, #ff6b35);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: transform 0.3s ease;
+    }
+
+    .logo:hover {
+      transform: scale(1.05) rotate(-2deg);
+    }
+
+    .logo::before {
+      content: "♔";
+      font-size: 2.5rem;
+      -webkit-text-fill-color: #ffa500;
+      animation: float 3s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-10px); }
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: #fff;
+      text-decoration: none;
+      padding: 0.5rem 1.5rem;
+      border-radius: 25px;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .nav-links a::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 165, 0, 0.3), transparent);
+      transition: left 0.5s ease;
+    }
+
+    .nav-links a:hover::before {
+      left: 100%;
+    }
+
+    .nav-links a:hover {
+      background: rgba(255, 165, 0, 0.2);
+      transform: translateY(-2px);
+    }
+
+    /* Ultra-slim CTA button */
+    .cta-btn {
+      background: linear-gradient(135deg, #ffb347, #ff7a29);
+      padding: 0.3rem 0.8rem;
+      border-radius: 20px;
+      border: 1px solid rgba(255, 190, 100, 0.5);
+      color: #fff;
+      font-weight: 600;
+      font-size: 0.9rem;
+      letter-spacing: 0.3px;
+      cursor: pointer;
+      transition: all 0.35s ease;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(255, 165, 0, 0.35);
+      white-space: nowrap;
+    }
+
+    .cta-btn::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(120deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+      transition: all 0.5s ease;
+    }
+
+    .cta-btn:hover::after {
+      left: 100%;
+    }
+
+    .cta-btn:hover {
+      transform: translateY(-2px) scale(1.03);
+      box-shadow: 0 5px 14px rgba(255, 165, 0, 0.5);
+      border-color: rgba(255, 210, 140, 0.9);
+    }
+
+    .cta-btn:active {
+      transform: scale(0.96);
+    }
+
+    /* Hero Section */
+    .hero {
+      max-width: 1400px;
+      margin: 4rem auto;
+      padding: 0 2rem;
+      text-align: center;
+    }
+
+    .hero h1 {
+      font-size: 3.5rem;
+      margin-bottom: 1rem;
+      background: linear-gradient(135deg, #fff, #ffa500);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: fadeInUp 1s ease;
+    }
+
+    .hero p {
+      font-size: 1.3rem;
+      color: #ccc;
+      margin-bottom: 2rem;
+      animation: fadeInUp 1s ease 0.2s backwards;
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Courses Section */
+    .courses-section {
+      max-width: 1400px;
+      margin: 4rem auto;
+      padding: 0 2rem;
+    }
+
+    .section-title {
+      font-size: 2.5rem;
+      margin-bottom: 2rem;
+      text-align: center;
+      position: relative;
+    }
+
+    .section-title::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 4px;
+      background: linear-gradient(90deg, #ffa500, #ff6b35);
+      border-radius: 2px;
+    }
+
+    .course-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 2rem;
+      margin-top: 3rem;
+    }
+
+    a.course-card {
+      display: block;
+      text-decoration: none;
+      color: inherit;
+      background: rgba(30, 30, 50, 0.8);
+      border-radius: 20px;
+      overflow: hidden;
+      border: 2px solid rgba(255, 165, 0, 0.1);
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    a.course-card:hover {
+      transform: translateY(-10px) scale(1.03);
+      border-color: #ffa500;
+      box-shadow: 0 15px 30px rgba(255, 165, 0, 0.3);
+    }
+
+    .course-image {
+      width: 100%;
+      height: 200px;
+      background: linear-gradient(135deg, #2d3561, #1f2544);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 5rem;
+    }
+
+    .course-content {
+      padding: 1.5rem;
+    }
+
+    .course-level {
+      display: inline-block;
+      padding: 0.3rem 1rem;
+      background: rgba(255, 165, 0, 0.2);
+      border-radius: 20px;
+      font-size: 0.85rem;
+      margin-bottom: 0.8rem;
+      border: 1px solid rgba(255, 165, 0, 0.4);
+    }
+
+    .course-title {
+      font-size: 1.4rem;
+      margin-bottom: 0.8rem;
+    }
+
+    .course-description {
+      color: #aaa;
+      font-size: 0.95rem;
+      line-height: 1.6;
+      margin-bottom: 1rem;
+    }
+
+    .course-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 1rem;
+      border-top: 1px solid rgba(255, 165, 0, 0.2);
+    }
+
+    .course-stats {
+      display: flex;
+      gap: 1rem;
+      font-size: 0.9rem;
+      color: #888;
+    }
+
+    .course-price {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: #ffa500;
+    }
+
+    /* Footer */
+    footer {
+      background: rgba(15, 15, 30, 0.95);
+      padding: 3rem 2rem 1rem;
+      margin-top: 6rem;
+      border-top: 2px solid rgba(255, 165, 0, 0.3);
+    }
+
+    .copyright {
+      text-align: center;
+      padding-top: 2rem;
+      border-top: 1px solid rgba(255, 165, 0, 0.2);
+      color: #888;
+    }
+
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .hero h1 { font-size: 2.5rem; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <nav>
+      <div class="logo">Chesswise</div>
+      <ul class="nav-links">
+        <li><a href="#courses">Courses</a></li>
+        <li><a href="#features">Features</a></li>
+        <li><a href="#pricing">Pricing</a></li>
+        <li><a href="#about">About</a></li>
+      </ul>
+      <button class="cta-btn">Start Learning</button>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <h1>Master Chess with Interactive Courses</h1>
+    <p>Learn from grandmasters and improve your game with proven training methods.</p>
+    <button class="cta-btn" style="font-size: 1rem; padding: 0.6rem 1.6rem;">Explore Courses</button>
+  </section>
+
+  <section class="courses-section" id="courses">
+    <h2 class="section-title">Featured Courses</h2>
+    <div class="course-grid">
+      <a href="Chessv.html" class="course-card">
+        <div class="course-image">♟️</div>
+        <div class="course-content">
+          <span class="course-level">Beginner</span>
+          <h3 class="course-title">Chess Fundamentals</h3>
+          <p class="course-description">Master the basics: piece movement, tactics, and opening principles.</p>
+          <div class="course-meta">
+            <div class="course-stats">
+              <span>📚 24 Lessons</span>
+              <span>⭐ 4.9</span>
+            </div>
+            <div class="course-price">$29</div>
+          </div>
+        </div>
+      </a>
+
+      <a href="Chessv.html" class="course-card">
+        <div class="course-image">♜</div>
+        <div class="course-content">
+          <span class="course-level">Intermediate</span>
+          <h3 class="course-title">Tactical Mastery</h3>
+          <p class="course-description">Sharpen your tactical vision with 500+ puzzles and famous game patterns.</p>
+          <div class="course-meta">
+            <div class="course-stats">
+              <span>📚 42 Lessons</span>
+              <span>⭐ 4.8</span>
+            </div>
+            <div class="course-price">$49</div>
+          </div>
+        </div>
+      </a>
+
+      <a href="Chessv.html" class="course-card">
+        <div class="course-image">♛</div>
+        <div class="course-content">
+          <span class="course-level">Advanced</span>
+          <h3 class="course-title">Endgame Techniques</h3>
+          <p class="course-description">Master crucial endgame positions and techniques to convert advantages.</p>
+          <div class="course-meta">
+            <div class="course-stats">
+              <span>📚 36 Lessons</span>
+              <span>⭐ 5.0</span>
+            </div>
+            <div class="course-price">$69</div>
+          </div>
+        </div>
+      </a>
+
+      <a href="Chessv.html" class="course-card">
+        <div class="course-image">♚</div>
+        <div class="course-content">
+          <span class="course-level">All Levels</span>
+          <h3 class="course-title">Opening Repertoire</h3>
+          <p class="course-description">Build solid opening repertoires with GM-approved lines and strategies.</p>
+          <div class="course-meta">
+            <div class="course-stats">
+              <span>📚 56 Lessons</span>
+              <span>⭐ 4.9</span>
+            </div>
+            <div class="course-price">$79</div>
+          </div>
+        </div>
+      </a>
+
+      <a href="Chessv.html" class="course-card">
+        <div class="course-image">♝</div>
+        <div class="course-content">
+          <span class="course-level">Intermediate</span>
+          <h3 class="course-title">Positional Play</h3>
+          <p class="course-description">Understand long-term strategy and learn to exploit weaknesses effectively.</p>
+          <div class="course-meta">
+            <div class="course-stats">
+              <span>📚 38 Lessons</span>
+              <span>⭐ 4.7</span>
+            </div>
+            <div class="course-price">$59</div>
+          </div>
+        </div>
+      </a>
+
+      <a href="Chessv.html" class="course-card">
+        <div class="course-image">♞</div>
+        <div class="course-content">
+          <span class="course-level">Advanced</span>
+          <h3 class="course-title">Attack & Defense</h3>
+          <p class="course-description">Learn attacking motifs and defensive resources from GM-level examples.</p>
+          <div class="course-meta">
+            <div class="course-stats">
+              <span>📚 44 Lessons</span>
+              <span>⭐ 4.8</span>
+            </div>
+            <div class="course-price">$64</div>
+          </div>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <footer>
+    <div class="copyright">
+      <p>&copy; 2025 Chesswise. All rights reserved. Made with ♟️ for chess lovers.</p>
+    </div>
+  </footer>
+</body>
+</html>
